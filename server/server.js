@@ -1,10 +1,11 @@
 const express = require('express');
 const path = require('path');
-
+const userRouter = require('./routers/userRouter');
 
 
 
 const app = express();
+// Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -12,6 +13,8 @@ app.use(express.static('public'));
 
 const api = express.Router();
 app.use('/api', api);
+
+app.use('/user', userRouter);
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
   app.use('/build', express.static(path.join(__dirname, '../build')));
@@ -24,7 +27,7 @@ else {
 }
 
 
-
+// 404 Not Found
 app.use((req, res) => res.sendStatus(404));
 
 

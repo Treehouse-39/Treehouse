@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
-const dotenv = require('dotenv').config()
-console.log('pg file ran')
+const dotenv = require('dotenv').config();
+console.log('pg file ran');
 const connectionString = process.env.PG_URI;
 const pool = new Pool({
   connectionString,
@@ -13,9 +13,10 @@ const createSchemaQuery = `CREATE SCHEMA IF NOT EXISTS treehouse_schema`;
 
 // Run the schema creation query. (none is for a query that expects no response)
 async function createSchema() {
-  await pool.query(createSchemaQuery)
-  .then(() => console.log('Schema created successfully'))
-  .catch((err) => console.error('Error creating schema:', err));
+  await pool
+    .query(createSchemaQuery)
+    .then(() => console.log('Schema created successfully'))
+    .catch((err) => console.error('Error creating schema:', err));
 }
 
 //TO DO: make table for users
@@ -28,7 +29,8 @@ const makeTreeTable = `CREATE TABLE IF NOT EXISTS tree (
 )`;
 
 async function createTreeTable() {
-    await pool.query(makeTreeTable)
+  await pool
+    .query(makeTreeTable)
     .then(() => console.log('Table created successfully'))
     .catch((err) => console.error('Error creating tree table:', err));
 }
@@ -54,9 +56,10 @@ const makePeopleTable = `CREATE TABLE IF NOT EXISTS people (
  )`;
 
 async function createPeopleTable() {
-  await pool.query(makePeopleTable)
-  .then(() => console.log('Table created successfully'))
-  .catch((err) => console.error('Error creating people table:', err));
+  await pool
+    .query(makePeopleTable)
+    .then(() => console.log('Table created successfully'))
+    .catch((err) => console.error('Error creating people table:', err));
 }
 
 createSchema();
@@ -67,11 +70,8 @@ module.exports = {
   query: (text, params, callback) => {
     console.log('executed query', text);
     return pool.query(text, params, callback);
-  }
+  },
 };
-
-
-
 
 // CREATE TABLE mytable (
 //   id SERIAL PRIMARY KEY,
@@ -82,7 +82,6 @@ module.exports = {
 // INSERT INTO mytable (parent_id, ...) VALUES (1, ...);
 
 // SELECT * FROM mytable WHERE parent_id = 1;
-
 
 // CREATE TABLE parent (
 //   id SERIAL PRIMARY KEY,
@@ -100,9 +99,6 @@ module.exports = {
 //   spouse_id INTEGER REFERENCES person(person_id)
 //   PRIMARY KEY (parent_id, child_id, spouse_id)
 // );
-
-
-
 
 // CREATE TABLE person (
 //   id SERIAL PRIMARY KEY,

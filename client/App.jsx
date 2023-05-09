@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
+// import { Component } from  'react';
+import Home from './Components/Home.jsx';
 // require('dotenv').config();
 // import * as dotenv from 'dotenv';
 
 const App = () => {
-
   /* OAUTH 
   // Create form to request access token from Google's OAuth 2.0 server
   function oauthSignIn() {
@@ -43,9 +44,11 @@ const App = () => {
     form.submit();
   }
   */
- 
+
   return (
-    <p>Hello world</p>
+    <>
+      <Home />
+    </>
   );
 };
 

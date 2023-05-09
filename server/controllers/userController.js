@@ -2,18 +2,12 @@ const db = require('../models/treehouseModels.js');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
-
-
 const userController = {
   async createUser(req, res, next) {
     const { username, password, family_name } = req.body;
     // check if fields are missing
 
-    if (
-      username == undefined ||
-      password == undefined ||
-      family_name == undefined
-    ) {
+    if (username == undefined || password == undefined || family_name == undefined) {
       return next({
         log: 'Error missing required fields in userController.createUser',
         status: 400,
@@ -75,31 +69,31 @@ const userController = {
 
   generateOauthURL(req, res, next) {
     const client_id = process.env.googleClientId;
-    const response_type	= 'token'
-    const redirect_uri = 'http://localhost:3000/user/google/callback'
-    const scope = 'https://www.googleapis.com/auth/userinfo.email'
+    const response_type = 'token';
+    const redirect_uri = 'http://localhost:3000/user/google/callback';
+    const scope = 'https://www.googleapis.com/auth/userinfo.email';
 
     const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?
     scope=${scope}&
     response_type=${response_type}&
     redirect_uri=${redirect_uri}&
-    client_id=${client_id}`
-    
+    client_id=${client_id}`;
+
     res.locals.googleUrl = googleUrl;
     return next();
   },
 
   handleGoogleResponse(req, res, next) {
-    console.log('hello')
+    console.log('hello');
     // Parse the request params for Google response
     // console.log(req);
     // console.log(req.params);
     // console.log(req.query);
     // const  = req.query;
-    console.log('req', req)
-    console.log('req.query', req.query)
-return next()
-  }
+    console.log('req', req);
+    console.log('req.query', req.query);
+    return next();
+  },
 };
 
 module.exports = userController;

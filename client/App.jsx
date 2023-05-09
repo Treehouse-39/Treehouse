@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-// require('dotenv').config();
-// import * as dotenv from 'dotenv';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Login from './pages/Login.jsx';
+import Home from './pages/Home.jsx';
+import Signup from './pages/Signup.jsx';
 
 const App = () => {
-
   /* OAUTH 
   // Create form to request access token from Google's OAuth 2.0 server
   function oauthSignIn() {
@@ -43,9 +44,26 @@ const App = () => {
     form.submit();
   }
   */
- 
+
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Login />,
+    },
+    {
+      path: 'home',
+      element: <Home />,
+    },
+    {
+      path: 'signup',
+      element: <Signup />,
+    },
+  ]);
+
   return (
-    <p>Hello world</p>
+    <div id='main-content'>
+      <RouterProvider router={router} />
+    </div>
   );
 };
 

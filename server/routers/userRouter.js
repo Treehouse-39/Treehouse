@@ -8,7 +8,7 @@ userRouter.post('/createuser', userController.createUser, (req, res) => {
 });
 
 userRouter.post('/login', userController.verifyUser, (req, res) => {
-  res.status(200).json('Login Successful');
+  res.status(200).json(res.locals.result);
 });
 
 userRouter.get(

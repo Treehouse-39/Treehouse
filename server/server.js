@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+
 // app.use(
 //   cors({
 //     origin: 'http://localhost:3000/user/google/callback',
@@ -19,6 +20,7 @@ app.use(express.static('public'));
 // );
 
 app.use('/user', userRouter);
+app.use('/api', apiRouter)
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
   app.use('/build', express.static(path.join(__dirname, '../build')));
@@ -29,7 +31,6 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
   app.get('/home', (req, res) => res.status(200).sendFile(path.join(__dirname, '../index.html')));
 }
 
-app.use('/api', apiRouter);
 
 // 404 Not Found
 app.use((req, res) => res.sendStatus(404));

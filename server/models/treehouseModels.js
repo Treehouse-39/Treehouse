@@ -41,6 +41,7 @@ const makePeopleTable = `CREATE TABLE IF NOT EXISTS people (
     family_tree INTEGER REFERENCES tree(id),
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
+    sex VARCHAR(255) NOT NULL,
     phone_number CHAR(20),
     email VARCHAR(255),
     birthday DATE NOT NULL,

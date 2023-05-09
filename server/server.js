@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const dotenv = require('dotenv').config()
+const apiRouter = require('./routes/api');
 
 
 
@@ -23,7 +25,7 @@ else {
   app.get('/home', (req, res) => res.status(200).sendFile(path.join(__dirname, '../index.html')));
 }
 
-
+app.use('/api', apiRouter)
 
 app.use((req, res) => res.sendStatus(404));
 
@@ -42,3 +44,5 @@ app.use((err, req, res, next) => {
 app.listen(3000, () => {
   console.log('listening on port 3000');
 });
+
+module.exports = app;

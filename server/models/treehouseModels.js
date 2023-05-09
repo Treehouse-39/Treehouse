@@ -59,9 +59,9 @@ async function createPersonTable() {
   .catch((err) => console.error('Error creating person table:', err));
 }
 
-createSchema();
-createPersonTable();
-createTreeTable();
+// createSchema();
+// createPersonTable();
+// createTreeTable();
 
 module.exports = {
   query: (text, params, callback) => {

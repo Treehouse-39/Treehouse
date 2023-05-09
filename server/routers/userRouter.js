@@ -11,4 +11,4 @@ userRouter.post('/login', userController.verifyUser, (req, res) => {
   res.status(200).json('Login Successful');
 });
 
-export default userRouter;
+module.exports = userRouter;

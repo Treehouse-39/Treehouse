@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const userRouter = require('./routers/userRouter');
 const dotenv = require('dotenv').config()
-const apiRouter = require('./routes/api');
+const apiRouter = require('./routers/api');
 
 
 
@@ -29,10 +29,9 @@ else {
   app.get('/home', (req, res) => res.status(200).sendFile(path.join(__dirname, '../index.html')));
 }
 
-
-// 404 Not Found
 app.use('/api', apiRouter)
 
+// 404 Not Found
 app.use((req, res) => res.sendStatus(404));
 
 

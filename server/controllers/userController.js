@@ -1,15 +1,16 @@
-const db = require('./userModel.js');
+const db = require('../models/treehouseModels.js');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 const userController = {
   async createUser(req, res, next) {
-    const { username, password, familyName } = req.body;
+    const { username, password, family_name } = req.body;
     // check if fields are missing
+
     if (
       username == undefined ||
       password == undefined ||
-      familyName == undefined
+      family_name == undefined
     ) {
       return next({
         log: 'Error missing required fields in userController.createUser',
@@ -18,13 +19,14 @@ const userController = {
       });
     }
     // Use bcrypt to hash the provided password
-    const hash = bcrypt.hash(password, 5);
+    const hash = await bcrypt.hash(password, 5);
 
-    const queryString = `INSERT INTO tree (username, password, family_name), (${username}, ${hash}, ${familyName})`;
+    const queryString = `INSERT INTO tree (username, password, family_name) VALUES ('${username}', '${hash}', '${family_name}') RETURNING *;`;
 
     try {
       const { rows } = await db.query(queryString);
       res.locals.result = rows[0].id;
+      return next();
     } catch {
       return next({
         log: 'Error creating user in database',
@@ -45,13 +47,14 @@ const userController = {
       });
     }
 
-    const queryString = `SELECT * FROM users WHERE username = ${username}`;
+    const queryString = `SELECT * FROM tree WHERE username = '${username}';`;
 
     try {
       const { rows } = await db.query(queryString);
-      const match = bcrypt.hash(password, rows[0].password);
+      const match = await bcrypt.compare(password, rows[0].password);
       if (match) {
         res.locals.result = rows[0].id;
+        return next();
       } else {
         return next({
           log: 'Error passwords do not match',

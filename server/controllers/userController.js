@@ -89,8 +89,6 @@ const userController = {
     return next();
   },
 
-  // https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email&response_type=token&redirect_uri=http://localhost:3000/user/google/callback&client_id=259775907524-hfp1tbe741beir8rc9malevcfrqlmsfb.apps.googleusercontent.com
-
   handleGoogleResponse(req, res, next) {
     console.log('hello')
     // Parse the request params for Google response

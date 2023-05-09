@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 // import * as dotenv from 'dotenv';
 
 const App = () => {
+
+  /* OAUTH 
   // Create form to request access token from Google's OAuth 2.0 server
   function oauthSignIn() {
     // Google's OAuth 2.0 endpoint for requesting an access token
@@ -40,9 +42,10 @@ const App = () => {
     document.body.appendChild(form);
     form.submit();
   }
+  */
+ 
   return (
-    // <p>Hello world</p>
-    <button onClick={oauthSignIn}>Click me</button>
+    <p>Hello world</p>
   );
 };
 

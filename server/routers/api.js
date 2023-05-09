@@ -6,11 +6,7 @@ const router = express.Router();
 
 
 
-router.post('/addPerson',
-    personController.checkPerson,
-    personController.addPerson,
-    (req, res) => res.sendStatus(200)
-)
+
 // Add child from clicking add child button on the card
 // Grab that person's ID and label it as parent 1
 // If that person has a spouse, grab that ID and label is as parent 2
@@ -33,6 +29,12 @@ router.get('/',
     (req, res) => res.status(200).json(res.locals)
 )
 
+router.post('/addPerson',
+    personController.checkPerson,
+    personController.addPerson,
+    (req, res) => res.sendStatus(200)
+)
+
 router.post('/addRelation/:firstName/:lastName/:birthday/:relation', 
     personController.getId,
     personController.checkPerson,
@@ -40,8 +42,7 @@ router.post('/addRelation/:firstName/:lastName/:birthday/:relation',
     (req, res) => res.status(200).json(res.locals)
 )
 
-
-router.post('/addChild/:parentFirstName/:parentLastName/:parentBirthday/:parentStatus',
+router.post('/addChild/:parentFirstName/:parentLastName/:parentBirthday/:parentSex',
     personController.addChild,
     (req, res) => res.sendStatus(200)
 )

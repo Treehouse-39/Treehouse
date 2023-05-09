@@ -84,26 +84,26 @@ personController.addPerson = async (req, res, next) => {
         try {
             let data;
             let queryString;
-            const { familyTree, firstName, lastName, phoneNumber, email, birthday, deathDate, 
+            const { familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, 
                 streetAddress, city, state, zipCode } = req.body;
             if (res.locals.spouseId){
                 const {spouseId} = res.locals;
-                data = [familyTree, firstName, lastName, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, spouseId];        
-                queryString = `INSERT INTO people (family_tree, first_name, last_name, phone_number, email, birthday, death_date, street_address, city, state, zip_code, spouse_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`;
+                data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, spouseId];        
+                queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, spouse_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
 
             } else if (res.locals.momId){
                 const {momId} = res.locals;
-                data = [familyTree, firstName, lastName, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, momId];        
-                queryString = `INSERT INTO people (family_tree, first_name, last_name, phone_number, email, birthday, death_date, street_address, city, state, zip_code, mom_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`;
+                data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, momId];        
+                queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, mom_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
 
             } else if (res.locals.dadId){
                 const {dadId} = res.locals;
-                data = [familyTree, firstName, lastName, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, dadId];        
-                queryString = `INSERT INTO people (family_tree, first_name, last_name, phone_number, email, birthday, death_date, street_address, city, state, zip_code, dad_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`;
+                data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, dadId];        
+                queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, dad_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
 
             } else {
-                data = [familyTree, firstName, lastName, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode];        
-                queryString = `INSERT INTO people (family_tree, first_name, last_name, phone_number, email, birthday, death_date, street_address, city, state, zip_code) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id`;
+                data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode];        
+                queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`;
 
             }
             // newID = new person created ID
@@ -204,21 +204,21 @@ personController.getPerson = async(req, res, next) => {
 
 personController.addChild = async(req, res, next) => {
     try {
-        const { parentFirstName, parentLastName, parentBirthday, parentStatus } = req.params;
-        const { familyTree, firstName, lastName, phoneNumber, email, birthday, deathDate, 
+        const { parentFirstName, parentLastName, parentBirthday, parentSex } = req.params;
+        const { familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, 
                 streetAddress, city, state, zipCode } = req.body;
         const parentQueryString = `SELECT * FROM people WHERE first_name='${parentFirstName}' AND last_name='${parentLastName}' AND birthday='${parentBirthday}' `;
         const response = await db.query(parentQueryString);
         const parentId = response.rows[0].id;
         let data;
         let queryString;
-        if (parentStatus==='mom'){
-            data = [familyTree, firstName, lastName, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, parentId];        
-            queryString = `INSERT INTO people (family_tree, first_name, last_name, phone_number, email, birthday, death_date, street_address, city, state, zip_code, mom_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`;
+        if (parentSex==='female'){
+            data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, parentId];        
+            queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, mom_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
 
-        } else if (parentStatus ==='dad'){
-            data = [familyTree, firstName, lastName, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, parentId];        
-            queryString = `INSERT INTO people (family_tree, first_name, last_name, phone_number, email, birthday, death_date, street_address, city, state, zip_code, dad_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`;
+        } else if (parentSex ==='male'){
+            data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, parentId];        
+            queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, dad_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
 
         }
         await db.query(queryString, data);

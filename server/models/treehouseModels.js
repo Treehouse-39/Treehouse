@@ -34,7 +34,7 @@ async function createTreeTable() {
 }
 
 //TO DO: make table for users
-const makePersonTable = `CREATE TABLE IF NOT EXISTS person (
+const makePeopleTable = `CREATE TABLE IF NOT EXISTS people (
     id INTEGER GENERATED ALWAYS AS IDENTITY,
     family_tree INTEGER REFERENCES tree(id),
     first_name VARCHAR(255) NOT NULL,
@@ -47,20 +47,20 @@ const makePersonTable = `CREATE TABLE IF NOT EXISTS person (
     city VARCHAR(255),
     state VARCHAR(255),
     zip_code VARCHAR(255),
-    spouse_id INTEGER REFERENCES person(id),
-    parent1_id INTEGER REFERENCES person(id),
-    parent2_id INTEGER REFERENCES person(id),
+    spouse_id INTEGER REFERENCES people(id),
+    mom_id INTEGER REFERENCES people(id),
+    dad_id INTEGER REFERENCES people(id),
     PRIMARY KEY (id)
  )`;
 
-async function createPersonTable() {
-  await pool.query(makePersonTable)
+async function createPeopleTable() {
+  await pool.query(makePeopleTable)
   .then(() => console.log('Table created successfully'))
-  .catch((err) => console.error('Error creating person table:', err));
+  .catch((err) => console.error('Error creating people table:', err));
 }
 
 createSchema();
-createPersonTable();
+createPeopleTable();
 createTreeTable();
 
 module.exports = {

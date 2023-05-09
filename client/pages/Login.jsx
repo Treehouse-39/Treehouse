@@ -58,6 +58,7 @@ const Login = () => {
               onChange={handleChange}
             />
           </label>
+          <br></br>
           <label id='password-label'>
             Password:
             <input
@@ -67,6 +68,7 @@ const Login = () => {
               onChange={handleChange}
             />
           </label>
+          <br></br>
           <input id='login-button' type='submit' name='submit' value='Login' />
         </form>
       </div>

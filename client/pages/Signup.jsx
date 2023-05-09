@@ -60,6 +60,7 @@ const Signup = () => {
               onChange={handleChange}
             />
           </label>
+          <br></br>
           <label id='password-label'>
             Password:
             <input
@@ -69,6 +70,7 @@ const Signup = () => {
               onChange={handleChange}
             />
           </label>
+          <br></br>
           <label id='family-name-label'>
             Family Name:
             <input
@@ -78,6 +80,7 @@ const Signup = () => {
               onChange={handleChange}
             />
           </label>
+          <br></br>
           <input
             id='signup-button'
             type='submit'

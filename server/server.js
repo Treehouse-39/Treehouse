@@ -1,16 +1,30 @@
 const express = require('express');
 const path = require('path');
+const userRouter = require('./routers/userRouter');
 const dotenv = require('dotenv').config()
-const apiRouter = require('./routes/api');
-
-
+const apiRouter = require('./routers/api');
+var cors = require('cors')
 
 
 const app = express();
+// Body parser
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded());
 app.use(express.static('public'));
 
+
+app.use(
+  cors({
+    origin: 'http://localhost:3000/user/google/callback',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // The HTTP methods allowed by the server
+  })
+);
+
+
+const api = express.Router();
+app.use('/api', api);
+
+app.use('/user', userRouter);
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
   app.use('/build', express.static(path.join(__dirname, '../build')));
@@ -24,6 +38,7 @@ else {
 
 app.use('/api', apiRouter)
 
+// 404 Not Found
 app.use((req, res) => res.sendStatus(404));
 
 

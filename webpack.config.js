@@ -45,6 +45,7 @@ module.exports = {
             template: './index.html'
         })
     ],
+
     devServer: {
         static: {
             publicPath: '/build',
@@ -52,7 +53,8 @@ module.exports = {
         },
         proxy: {
             '/api/*': 'http://localhost:3000/',
-            '/home': 'http://localhost:3000/'
+            '/home': 'http://localhost:3000/',
+            '/user/*': 'http://localhost:3000/'
         },
         compress: true,
         port: 8080,

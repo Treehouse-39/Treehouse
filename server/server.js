@@ -3,15 +3,22 @@ const path = require('path');
 const userRouter = require('./routers/userRouter');
 const dotenv = require('dotenv').config()
 const apiRouter = require('./routers/api');
-
-
+var cors = require('cors')
 
 
 const app = express();
 // Body parser
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded());
 app.use(express.static('public'));
+
+
+app.use(
+  cors({
+    origin: 'http://localhost:3000/user/google/callback',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // The HTTP methods allowed by the server
+  })
+);
 
 
 const api = express.Router();

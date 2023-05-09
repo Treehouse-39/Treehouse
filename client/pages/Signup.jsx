@@ -11,6 +11,8 @@ const Signup = () => {
     family_name: '',
   });
 
+  const [famId, setfamId] = useState(null);
+
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -35,7 +37,11 @@ const Signup = () => {
         // If the server returns an error, alert the user
         if (parsedRes.err) alert('Unable to create user. Please try again');
         // Otherwise, navigate to the homepage
-        else navigate('/');
+        else {
+            setfamId(parsedRes);
+            console.log(famId);
+            navigate('/createperson');
+        }
       } catch {
         alert('Unable to create user. Please try again');
       }
@@ -80,7 +86,7 @@ const Signup = () => {
               onChange={handleChange}
             />
           </label>
-          <br></br>
+          
           <input
             id='signup-button'
             type='submit'

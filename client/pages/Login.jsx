@@ -44,7 +44,7 @@ const Login = () => {
 
   const { username, password } = data;
   return (
-    <div>
+    <div id='login-page'>
       <h1>Treehouse</h1>
       <div id='login'>
         <h3>Login</h3>

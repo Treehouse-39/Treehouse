@@ -12,9 +12,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 
-const api = express.Router();
-app.use('/api', api);
-
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
   app.use('/build', express.static(path.join(__dirname, '../build')));
   app.get('/', (req, res) => {

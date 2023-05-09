@@ -13,18 +13,15 @@ app.use(express.urlencoded());
 app.use(express.static('public'));
 
 
-app.use(
-  cors({
-    origin: 'http://localhost:3000/user/google/callback',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // The HTTP methods allowed by the server
-  })
-);
-
-
-const api = express.Router();
-app.use('/api', api);
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000/user/google/callback',
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // The HTTP methods allowed by the server
+//   })
+// );
 
 app.use('/user', userRouter);
+app.use('/api', apiRouter)
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
   app.use('/build', express.static(path.join(__dirname, '../build')));
@@ -36,7 +33,6 @@ else {
   app.get('/home', (req, res) => res.status(200).sendFile(path.join(__dirname, '../index.html')));
 }
 
-app.use('/api', apiRouter)
 
 // 404 Not Found
 app.use((req, res) => res.sendStatus(404));

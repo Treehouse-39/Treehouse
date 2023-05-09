@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
 const userRouter = require('./routers/userRouter');
+const dotenv = require('dotenv').config()
+const apiRouter = require('./routes/api');
+
 
 
 
@@ -28,6 +31,8 @@ else {
 
 
 // 404 Not Found
+app.use('/api', apiRouter)
+
 app.use((req, res) => res.sendStatus(404));
 
 
@@ -45,3 +50,5 @@ app.use((err, req, res, next) => {
 app.listen(3000, () => {
   console.log('listening on port 3000');
 });
+
+module.exports = app;

@@ -42,11 +42,12 @@ personController.getId = async (req, res, next) => {
     const existingId = await db.query(getIdQuery);
     if (relation === 'spouse') {
       res.locals.spouseId = existingId.rows[0].id;
-    } else if (relation === 'mom') {
-      res.locals.momId = existingId.rows[0].id;
-    } else if (relation === 'dad') {
-      res.locals.dadId = existingId.rows[0].id;
+    } else if (relation === 'mom' || relation === 'dad') {
+      res.locals.childId = existingId.rows[0].id;
     }
+    //  else if (relation === 'dad') {
+    //   res.locals.dadId = existingId.rows[0].id;
+    // }
     return next();
   } catch (err) {
     next({ log: 'Error in personController.getId', message: `error: ${err}` });
@@ -89,15 +90,15 @@ personController.addPerson = async (req, res, next) => {
                 data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, spouseId];        
                 queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, spouse_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
 
-            } else if (res.locals.momId){
-                const {momId} = res.locals;
-                data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, momId];        
-                queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, mom_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
+            // } else if (res.locals.momId){
+            //     const {momId} = res.locals;
+            //     data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, momId];        
+            //     queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, mom_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
 
-            } else if (res.locals.dadId){
-                const {dadId} = res.locals;
-                data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, dadId];        
-                queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, dad_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
+            // } else if (res.locals.dadId){
+            //     const {dadId} = res.locals;
+            //     data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, dadId];        
+            //     queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, dad_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
 
             } else {
                 data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode];        
@@ -113,7 +114,17 @@ personController.addPerson = async (req, res, next) => {
                 const { spouseId } = res.locals;
                 const updateCurrentSpouseQuery = `UPDATE people SET spouse_id=${newId} WHERE id=${spouseId}`;
                 await db.query(updateCurrentSpouseQuery);
-            } 
+            } else if (res.locals.childId){
+                const {childId} = res.locals;
+                const {relation} = req.params;
+                if (relation === 'mom'){
+                    const updatedMomQuery = `UPDATE people SET mom_id=${newId} WHERE id=${childId}`
+                    await db.query(updatedMomQuery)
+                } else if (relation === 'dad'){
+                    const updatedDadQuery = `UPDATE people SET dad_id=${newId} WHERE id=${childId}`
+                    await db.query(updatedDadQuery)
+                }
+            }
             return next();
         } catch (err){
             console.log(err);
@@ -123,20 +134,22 @@ personController.addPerson = async (req, res, next) => {
         //Cases for if the relative you're adding already exists somewher in the tree
         try {
             const {exists} = res.locals;
+            const {relation} = req.params;
             console.log(res.locals)
             if (res.locals.spouseId){
                 const {spouseId} = res.locals;
                 const updateCurrentSpouseQuery = `UPDATE people SET spouse_id=${exists} WHERE id=${spouseId}`;
                 await db.query(updateCurrentSpouseQuery);
-            } else if (res.locals.momId){
-                const {momId} = res.locals;
-                const updateCurrentMomQuery = `UPDATE people SET mom_id=${exists} WHERE id=${momId}`;
-                await db.query(updateCurrentMomQuery);
-            } else if (res.locals.dadId){
-                const {dadId} = res.locals;
-                const updateCurrentDadQuery = `UPDATE people SET dad_id=${exists} WHERE id=${dadId}`;
-                await db.query(updateCurrentDadQuery);
-            }
+            } else if (res.locals.childId){
+                const {childId} = res.locals;
+                if (relation === 'mom'){
+                    const updateCurrentMomQuery = `UPDATE people SET mom_id=${exists} WHERE id=${childId}`;
+                    await db.query(updateCurrentMomQuery);
+                } else if (relation === 'dad'){
+                    const updateCurrentDadQuery = `UPDATE people SET dad_id=${exists} WHERE id=${dadId}`;
+                    await db.query(updateCurrentDadQuery);
+                }
+            } 
             return next();
         } catch(err){
             next({log: 'Error in personController.addPerson', message: `error: ${err}`});

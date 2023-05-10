@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import TreeDisplay from '../Components/TreeDisplay.jsx';
 import CardDetailDisplay from '../Components/CardDetailDisplay.jsx';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const [people, setPeople] = useState([]);
   const [viewTree, setViewTree] = useState(true);
   const [person, setPerson] = useState({});
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getPeople();
@@ -36,7 +39,8 @@ export default function Home() {
 
   return (
     <>
-      <h1>Home</h1>
+      <button id='logout-button' onClick={() => navigate('/')}>Log Out</button>
+      <h1 id='homepage-title'>Your treehouse</h1>
       {viewTree ? <TreeDisplay people={people} getDetails={getDetails} /> : <CardDetailDisplay person={person} getDetails={getDetails} setViewTree={setViewTree} />}
     </>
   );

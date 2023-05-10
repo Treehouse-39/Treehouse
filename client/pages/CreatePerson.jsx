@@ -107,56 +107,105 @@ const CreatePerson = () => {
 
   const { firstName, lastName, birthday, phoneNumber, email, streetAddress, city, state, zipCode, sex } = data;
   return (
-    <div id="create-person-page">
-      <h1>Add yourself below </h1>
-      <div id="create-person">
-        <form id="set-person" onSubmit={handleSubmit}>
-          <label id="first-name-label">
-            First Name:
-            <input type="text" name="firstName" value={firstName} onChange={handleChange} />
+    <div id='create-person-page'>
+      <h2>Add yourself below! </h2>
+      <div id='create-person'>
+        <form id='set-person' onSubmit={handleSubmit}>
+          <label id='first-name-label'>
+            First Name*:
+            <input
+              type='text'
+              name='firstName'
+              value={firstName}
+              onChange={handleChange}
+              className='inputBox'
+            />
           </label>
           <br></br>
-          <label id="last-name-label">
-            Last Name:
-            <input type="text" name="lastName" value={lastName} onChange={handleChange} />
+          <label id='last-name-label'>
+            Last Name*:
+            <input
+              type='text'
+              name='lastName'
+              value={lastName}
+              onChange={handleChange}
+              className='inputBox'
+            />
           </label>
           <br></br>
-          <label id="birthday-label">
-            Birthday:
-            <input type="date" name="birthday" value={birthday} onChange={handleChange} />
+          <label id='birthday-label'>
+            Birthday*:
+            <input
+              type='date'
+              name='birthday'
+              value={birthday}
+              onChange={handleChange}
+              className='inputBox'
+            />
           </label>
           <br></br>
-          <label id="sex-label">
-            Sex:
-            <input type="text" name="sex" value={sex} onChange={handleChange} />
+          <label id='sex-label'>
+            Sex*:
+            <input type='text' name='sex' value={sex} onChange={handleChange}
+            className='inputBox' />
           </label>
           <br></br>
           <label id="email-label">
             Email:
-            <input type="email" name="email" value={email} onChange={handleChange} />
+            <input
+              type='email'
+              name='email'
+              value={email}
+              onChange={handleChange}
+              className='inputBox'
+            />
           </label>
           <br></br>
           <label id="street-address-label">
             Street Address:
-            <input type="text" name="streetAddress" value={streetAddress} onChange={handleChange} />
+            <input
+              type='text'
+              name='streetAddress'
+              value={streetAddress}
+              onChange={handleChange}
+              className='inputBox'
+            />
           </label>
           <br></br>
           <label id="city-label">
             City:
-            <input type="text" name="city" value={city} onChange={handleChange} />
+            <input
+              type='text'
+              name='city'
+              value={city}
+              onChange={handleChange}
+              className='inputBox'
+            />
           </label>
           <br></br>
           <label id="state-label">
             State:
-            <input type="text" name="state" value={state} onChange={handleChange} />
+            <input
+              type='text'
+              name='state'
+              value={state}
+              onChange={handleChange}
+              className='inputBox'
+            />
           </label>
           <br></br>
           <label id="zip-code-label">
             Zip Code:
-            <input type="text" name="zipCode" value={zipCode} onChange={handleChange} />
+            <input
+              type='text'
+              name='zipCode'
+              value={zipCode}
+              onChange={handleChange}
+              className='inputBox'
+            />
           </label>
           <br></br>
-          <input id="login-button" type="submit" name="submit" value="Login" />
+          <input id='login-button' type='submit' name='submit' value='Submit' />
         </form>
       </div>
     </div>

@@ -53,28 +53,35 @@ const Signup = () => {
 
   const { username, password, family_name } = data;
   return (
-    <div>
+    <div id='login-page'>
       <h1>Treehouse</h1>
+      <h2>Sign Up Today</h2>
       <div id="login">
-        <h3>Sign Up Today</h3>
         <form id="set-login" onSubmit={handleSubmit}>
           <label id="username-label">
             Username:
-            <input type="text" name="username" value={username} onChange={handleChange} />
+            <input type="text" name="username" value={username} onChange={handleChange}
+            className='inputBox' />
           </label>
           <br></br>
           <label id="password-label">
             Password:
-            <input type="text" name="password" value={password} onChange={handleChange} />
+            <input type="text" name="password" value={password} onChange={handleChange}
+            className='inputBox' />
           </label>
           <br></br>
           <label id="family-name-label">
             Family Name:
-            <input type="text" name="family_name" value={family_name} onChange={handleChange} />
+            <input type="text" name="family_name" value={family_name} onChange={handleChange}
+            className='inputBox' />
           </label>
 
-          <input id="signup-button" type="submit" name="submit" value="Sign Up" />
+          <input id="login-button" type="submit" name="submit" value="Sign Up" />
         </form>
+        <div id='signup'>
+        <p>Already have an account?</p>
+        <button onClick={() => navigate('/')}>SIGN IN</button>
+      </div>
       </div>
     </div>
   );

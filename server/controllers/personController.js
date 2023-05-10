@@ -1,4 +1,4 @@
-const db = require('../models/treehouseModels')
+const db = require('../models/treehouseModels');
 
 const personController = {};
 
@@ -16,44 +16,42 @@ personController.getAllPeople = async(req, res, next) => {
     }
 }
 
-// Create a new tree 
+// Create a new tree
 // Create a new account with username and password
 personController.addTree = async (req, res, next) => {
-    try {
-        console.log('adding tree')
-        const { username, password, family_name } = req.body;
-        const data = [username, password, family_name];
-        console.log(data);
-        const queryString = `INSERT INTO tree (username, password, family_name) VALUES ($1, $2, $3)`;
-        db.query(queryString, data);
-        return next();
-    } catch (err){
-        console.log(err);
-        next({log: 'Error in personController.addTree', message: `error: ${err}`});
-    }
-
-}
+  try {
+    console.log('adding tree');
+    const { username, password, family_name } = req.body;
+    const data = [username, password, family_name];
+    console.log(data);
+    const queryString = `INSERT INTO tree (username, password, family_name) VALUES ($1, $2, $3)`;
+    db.query(queryString, data);
+    return next();
+  } catch (err) {
+    console.log(err);
+    next({ log: 'Error in personController.addTree', message: `error: ${err}` });
+  }
+};
 
 // Getting the ID from an existing card/person
 // Also determine relation (spouse, mom, dad) from card
 personController.getId = async (req, res, next) => {
-    try {
-        const { firstName, lastName, birthday, relation } = req.params;
-        const getIdQuery = `SELECT id FROM people WHERE first_name='${firstName}' AND last_name='${lastName}' AND birthday='${birthday}'`;
-        const existingId = await db.query(getIdQuery);
-        if (relation === 'spouse'){
-            res.locals.spouseId = existingId.rows[0].id;
-        } else if (relation === 'mom') {
-            res.locals.momId = existingId.rows[0].id;
-        } else if (relation === 'dad') {
-            res.locals.dadId = existingId.rows[0].id;
-        }
-        return next()
-    } catch (err){
-        next({log: 'Error in personController.getId', message: `error: ${err}`})
+  try {
+    const { firstName, lastName, birthday, relation } = req.params;
+    const getIdQuery = `SELECT id FROM people WHERE first_name='${firstName}' AND last_name='${lastName}' AND birthday='${birthday}'`;
+    const existingId = await db.query(getIdQuery);
+    if (relation === 'spouse') {
+      res.locals.spouseId = existingId.rows[0].id;
+    } else if (relation === 'mom') {
+      res.locals.momId = existingId.rows[0].id;
+    } else if (relation === 'dad') {
+      res.locals.dadId = existingId.rows[0].id;
     }
-}
-
+    return next();
+  } catch (err) {
+    next({ log: 'Error in personController.getId', message: `error: ${err}` });
+  }
+};
 
 // Check if the person exists in the database already before adding a new one
 // check first name, last name, birthday
@@ -150,7 +148,7 @@ personController.addPerson = async (req, res, next) => {
 // Add child from clicking add child button on the card
 // Grab that person's ID and label it as parent 1
 // If that person has a spouse, grab that ID and label is as parent 2
-    // call add person method?
+// call add person method?
 
 // Add parent from clicking button on card
 // add person, hold onto that new persons ID (parent ID)

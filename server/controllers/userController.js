@@ -75,7 +75,21 @@ const userController = {
       });
     }
   },
+  async deleteUser(req, res, next){
+    const {username} = req.body;
+    const queryString = `DELETE FROM tree WHERE username='${username}'`
+    try {
+      await db.query(queryString)
+      return next()
+    }catch(err){
+      return next({
+        log: 'Error deleting user from database',
+        status: 400,
+        message: { err: 'Unable to verify user. Please try again' }
+      })
+    }
 
+  },
   generateOauthURL(req, res, next) {
     const client_id = process.env.googleClientId;
     const response_type = 'token';

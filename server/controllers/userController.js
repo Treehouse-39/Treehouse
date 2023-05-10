@@ -7,11 +7,7 @@ const userController = {
     const { username, password, family_name } = req.body;
     // check if fields are missing
 
-    if (
-      username == undefined ||
-      password == undefined ||
-      family_name == undefined
-    ) {
+    if (username == undefined || password == undefined || family_name == undefined) {
       return next({
         log: 'Error missing required fields in userController.createUser',
         status: 400,

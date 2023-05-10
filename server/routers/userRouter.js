@@ -11,20 +11,12 @@ userRouter.post('/login', userController.verifyUser, (req, res) => {
   res.status(200).json(res.locals.result);
 });
 
-userRouter.get(
-  '/google/generate',
-  userController.generateOauthURL,
-  (req, res) => {
-    res.redirect(res.locals.googleUrl);
-  }
-);
+userRouter.get('/google/generate', userController.generateOauthURL, (req, res) => {
+  res.redirect(res.locals.googleUrl);
+});
 
-userRouter.get(
-  '/google/callback',
-  userController.handleGoogleResponse,
-   (req, res) => {
-    res.sendStatus(200);
-  }
-);
+userRouter.get('/google/callback', userController.handleGoogleResponse, (req, res) => {
+  res.sendStatus(200);
+});
 
 module.exports = userRouter;

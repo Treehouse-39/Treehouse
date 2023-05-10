@@ -44,7 +44,7 @@ export default function Home() {
   return (
     <>
       <h1>Home</h1>
-      {viewTree ? <TreeDisplay people={people} getDetails={getDetails} /> : <CardDetailDisplay person={person} />}
+      {viewTree ? <TreeDisplay people={people} getDetails={getDetails} /> : <CardDetailDisplay person={person} getDetails={getDetails} setViewTree={setViewTree} />}
     </>
   );
 }

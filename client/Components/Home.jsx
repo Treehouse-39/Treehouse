@@ -20,10 +20,12 @@ export default function Home() {
       .then((info) => info.json())
       .then((data) => {
         console.log('returned people list', data);
-        setPeople(data);
+        setPeople(data.people);
       })
       .catch((err) => console.log(`Error from fetch: ${err}`));
   }
+
+  console.log(people);
 
   return (
     <>

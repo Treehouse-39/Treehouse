@@ -36,7 +36,6 @@ const Signup = () => {
         if (parsedRes.err) alert('Unable to create user. Please try again');
         // Otherwise, navigate to the homepage
         else {
-          console.log('parsedRes', parsedRes);
           setfamId(parsedRes);
         }
       } catch {

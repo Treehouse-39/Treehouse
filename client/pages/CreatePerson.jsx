@@ -6,21 +6,20 @@ const CreatePerson = () => {
 
   // Family ID is passed to this page through a router redirect from the signup page
   const passedState = useLocation();
-  // console.log(passedState)
   // firstName, lastName, birthday, relation => of original person
   const [relation, setRelation] = useState({
-    firstName: passedState.state.firstName, 
-    lastName: passedState.state.lastName, 
-    birthday: passedState.state.birthday, 
-    relationship: passedState.state.relation, 
+    firstName: passedState.state.firstName,
+    lastName: passedState.state.lastName,
+    birthday: passedState.state.birthday,
+    relationship: passedState.state.relation,
   });
 
   const [parent, setParent] = useState({
-    parentFirstName: passedState.state.parentFirstName, 
-    parentLastName: passedState.state.parentLastName, 
-    parentBirthday: passedState.state.parentBirthday, 
-    parentSex: passedState.state.parentSex
-  })
+    parentFirstName: passedState.state.parentFirstName,
+    parentLastName: passedState.state.parentLastName,
+    parentBirthday: passedState.state.parentBirthday,
+    parentSex: passedState.state.parentSex,
+  });
 
   const [data, setData] = useState({
     familyTree: passedState.state.id,
@@ -36,7 +35,6 @@ const CreatePerson = () => {
     sex: '',
   });
 
-
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -45,8 +43,7 @@ const CreatePerson = () => {
     e.preventDefault();
 
     // Filter for incomplte entries
-    if (firstName === '' || lastName === '' || birthday === null)
-      return alert('Required fields: First Name, Last Name, Birthday');
+    if (firstName === '' || lastName === '' || birthday === null) return alert('Required fields: First Name, Last Name, Birthday');
 
     // Create person
     const createPerson = async () => {
@@ -56,7 +53,6 @@ const CreatePerson = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         });
-        console.log(res);
         // If the response is OK, navigate to the homepage
         if (res.status === 200) navigate('/home');
         // Otherwise, alert the user to try again
@@ -69,12 +65,11 @@ const CreatePerson = () => {
     const createRelation = async () => {
       const { firstName, lastName, birthday, relationship } = relation;
       try {
-        const res = await fetch(`/api/addRelation/${firstName}/${lastName}/${birthday.slice(0,10)}/${relationship}`, {
+        const res = await fetch(`/api/addRelation/${firstName}/${lastName}/${birthday.slice(0, 10)}/${relationship}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         });
-        console.log(res);
         // If the response is OK, navigate to the homepage
         if (res.status === 200) navigate('/home');
         // // Otherwise, alert the user to try again
@@ -85,15 +80,13 @@ const CreatePerson = () => {
     };
 
     const createChild = async () => {
-      console.log(parent);
       const { parentFirstName, parentLastName, parentBirthday, parentSex } = parent;
       try {
-        const res = await fetch(`/api/addChild/${parentFirstName}/${parentLastName}/${parentBirthday.slice(0,10)}/${parentSex}`, {
+        const res = await fetch(`/api/addChild/${parentFirstName}/${parentLastName}/${parentBirthday.slice(0, 10)}/${parentSex}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         });
-        console.log(res);
         // If the response is OK, navigate to the homepage
         if (res.status === 200) navigate('/home');
         // // Otherwise, alert the user to try again
@@ -110,112 +103,60 @@ const CreatePerson = () => {
     } else {
       createPerson();
     }
-
   };
 
-  const {
-    firstName,
-    lastName,
-    birthday,
-    phoneNumber,
-    email,
-    streetAddress,
-    city,
-    state,
-    zipCode,
-    sex,
-  } = data;
+  const { firstName, lastName, birthday, phoneNumber, email, streetAddress, city, state, zipCode, sex } = data;
   return (
-    <div id='create-person-page'>
+    <div id="create-person-page">
       <h1>Add yourself below </h1>
-      <div id='create-person'>
-        <form id='set-person' onSubmit={handleSubmit}>
-          <label id='first-name-label'>
+      <div id="create-person">
+        <form id="set-person" onSubmit={handleSubmit}>
+          <label id="first-name-label">
             First Name:
-            <input
-              type='text'
-              name='firstName'
-              value={firstName}
-              onChange={handleChange}
-            />
+            <input type="text" name="firstName" value={firstName} onChange={handleChange} />
           </label>
           <br></br>
-          <label id='last-name-label'>
+          <label id="last-name-label">
             Last Name:
-            <input
-              type='text'
-              name='lastName'
-              value={lastName}
-              onChange={handleChange}
-            />
+            <input type="text" name="lastName" value={lastName} onChange={handleChange} />
           </label>
           <br></br>
-          <label id='birthday-label'>
+          <label id="birthday-label">
             Birthday:
-            <input
-              type='date'
-              name='birthday'
-              value={birthday}
-              onChange={handleChange}
-            />
+            <input type="date" name="birthday" value={birthday} onChange={handleChange} />
           </label>
           <br></br>
-          <label id='sex-label'>
+          <label id="sex-label">
             Sex:
-            <input type='text' name='sex' value={sex} onChange={handleChange} />
+            <input type="text" name="sex" value={sex} onChange={handleChange} />
           </label>
           <br></br>
-          <label id='email-label'>
+          <label id="email-label">
             Email:
-            <input
-              type='email'
-              name='email'
-              value={email}
-              onChange={handleChange}
-            />
+            <input type="email" name="email" value={email} onChange={handleChange} />
           </label>
           <br></br>
-          <label id='street-address-label'>
+          <label id="street-address-label">
             Street Address:
-            <input
-              type='text'
-              name='streetAddress'
-              value={streetAddress}
-              onChange={handleChange}
-            />
+            <input type="text" name="streetAddress" value={streetAddress} onChange={handleChange} />
           </label>
           <br></br>
-          <label id='city-label'>
+          <label id="city-label">
             City:
-            <input
-              type='text'
-              name='city'
-              value={city}
-              onChange={handleChange}
-            />
+            <input type="text" name="city" value={city} onChange={handleChange} />
           </label>
           <br></br>
-          <label id='state-label'>
+          <label id="state-label">
             State:
-            <input
-              type='text'
-              name='state'
-              value={state}
-              onChange={handleChange}
-            />
+            <input type="text" name="state" value={state} onChange={handleChange} />
           </label>
           <br></br>
-          <label id='zip-code-label'>
+          <label id="zip-code-label">
             Zip Code:
-            <input
-              type='text'
-              name='zipCode'
-              value={zipCode}
-              onChange={handleChange}
-            />
+            <input type="text" name="zipCode" value={zipCode} onChange={handleChange} />
           </label>
           <br></br>
-          <input id='login-button' type='submit' name='submit' value='Login' />
+          <input id="login-button" type="submit" name="submit" value="Login" />
         </form>
       </div>
     </div>

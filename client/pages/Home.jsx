@@ -1,7 +1,3 @@
-// make fetch request
-// get all people from database
-// create a person card for each entry in the DB
-//
 import React, { useEffect, useState } from 'react';
 import TreeDisplay from '../Components/TreeDisplay.jsx';
 import CardDetailDisplay from '../Components/CardDetailDisplay.jsx';
@@ -21,20 +17,17 @@ export default function Home() {
     })
       .then((info) => info.json())
       .then((data) => {
-        // console.log('returned people list', data);
         setPeople(data.people);
       })
       .catch((err) => console.log(`Error from fetch: ${err}`));
   }
 
   function getDetails(first_name, last_name, birthday) {
-    // /getPerson/:firstName/:lastName/:birthday
     fetch(`/api/getPerson/${first_name}/${last_name}/${birthday}`, {
       mode: 'no-cors',
     })
       .then((info) => info.json())
       .then((data) => {
-        // console.log('get specific person data - mom/dad/spouse', data);
         setPerson(data);
         setViewTree(false);
       })

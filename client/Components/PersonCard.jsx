@@ -5,12 +5,10 @@ export default function PersonCard(props) {
   const { getDetails } = props;
   return (
     <>
-    {/* style={{ (sex === 'male') ? {backgroundColor: 'lightblue'} : {backgroundColor: 'lightpink'} }}; */}
       <button
         style={{ width: '160px', height: '120px', border: '1px solid black', margin: '8px', padding: '3px', borderRadius: '5px', backgroundColor: 'lightgreen' }}
-        onClick={async () => {
-          console.log('clicked');
-          await getDetails(first_name, last_name, birthday);
+        onClick={() => {
+          getDetails(first_name, last_name, birthday);
           // get person query
         }}>
         <p>

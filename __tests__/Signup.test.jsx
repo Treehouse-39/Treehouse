@@ -9,7 +9,7 @@ import Signup from '../client/pages/Signup';
 // Mock Window Alert
 global.alert = jest.fn();
 
-test('Loads and displays Signup Page', () => {
+test('Loads and displays copmonents on Signup Page', () => {
   // ARRANGE
   render(
     <MemoryRouter>
@@ -25,7 +25,7 @@ test('Loads and displays Signup Page', () => {
   expect(screen.getByRole('button', { name: 'Sign Up' })).toBeInTheDocument();
 });
 
-test('Displays erorr if fields are empty', () => {
+test('Displays erorr alert if fields are empty', () => {
   // ARRANGE
   render(
     <MemoryRouter>

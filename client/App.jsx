@@ -66,7 +66,7 @@ const App = () => {
   ]);
 
   return (
-    <div id='main-content'>
+    <div id="main-content">
       <RouterProvider router={router} />
     </div>
   );

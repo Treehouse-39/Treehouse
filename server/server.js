@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
-const userRouter = require('./routers/userRouter');
+const userRouter = require('./routers/userRouter.js');
 const dotenv = require('dotenv').config();
-const apiRouter = require('./routers/api');
+const apiRouter = require('./routers/api.js');
 var cors = require('cors');
 
 const app = express();
@@ -12,15 +12,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 
-// app.use(
-//   cors({
-//     origin: 'http://localhost:3000/user/google/callback',
-//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // The HTTP methods allowed by the server
-//   })
-// );
-
 app.use('/user', userRouter);
-app.use('/api', apiRouter)
+app.use('/api', apiRouter);
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
   app.use('/build', express.static(path.join(__dirname, '../build')));
@@ -28,9 +21,10 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
     return res.status(200).sendFile(path.join(__dirname, '../index.html'));
   });
 } else {
-  app.get('/home', (req, res) => res.status(200).sendFile(path.join(__dirname, '../index.html')));
+  app.get('/home', (req, res) =>
+    res.status(200).sendFile(path.join(__dirname, '../index.html'))
+  );
 }
-
 
 // 404 Not Found
 app.use((req, res) => res.sendStatus(404));

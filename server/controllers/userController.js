@@ -7,7 +7,11 @@ const userController = {
     const { username, password, family_name } = req.body;
     // check if fields are missing
 
-    if (username == undefined || password == undefined || family_name == undefined) {
+    if (
+      username == undefined ||
+      password == undefined ||
+      family_name == undefined
+    ) {
       return next({
         log: 'Error missing required fields in userController.createUser',
         status: 400,
@@ -76,29 +80,92 @@ const userController = {
     }
   },
 
-  generateOauthURL(req, res, next) {
-    const client_id = process.env.googleClientId;
-    const response_type = 'token';
-    const redirect_uri = 'http://localhost:3000/user/google/callback';
-    const scope = 'https://www.googleapis.com/auth/userinfo.email';
-
-    const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?
-    scope=${scope}&
-    response_type=${response_type}&
-    redirect_uri=${redirect_uri}&
-    client_id=${client_id}`;
-
-    res.locals.googleUrl = googleUrl;
-    return next();
-  },
-
   handleGoogleResponse(req, res, next) {
-    console.log('hello');
-    console.log('req', req);
-    console.log('req.query', req.query);
+    // Parse the access code from the request
     const { code } = req.query;
     console.log('code', code);
-    return next();
+
+    // Define the response object
+    const properties = {
+      email: null,
+      birthday: null,
+      firstName: null,
+      lastName: null,
+    };
+
+    // Retrieve the users access token
+
+    const data = {
+      code,
+      client_id: process.env.googleClientId,
+      client_secret: process.env.googleSecret,
+      redirect_uri: 'http://localhost:3000/user/google/callback',
+      grant_type: 'authorization_code',
+    };
+
+    const getToken = async () => {
+      try {
+        const response = await fetch('https://oauth2.googleapis.com/token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        const responseClean = await response.json();
+        const birthday = await getBirthday(
+          responseClean.id_token,
+          responseClean.access_token
+        );
+        console.log('birthday in gettoken', birthday)
+        return next();
+      } catch (err) {
+        console.log('err from google', err);
+        return next({
+          log: 'Error retrieving email from Google',
+          status: 400,
+          message: { err: 'Unable to retrieve email from Google.' },
+        });
+      }
+    };
+
+    // Once you have the access token, get the users birthday
+    const getBirthday = async (id_token, access_token) => {
+      console.log(id_token)
+      console.log(access_token)
+      try {
+        const birthday = await fetch(
+          `https://people.googleapis.com/v1/people/me?personFields=birthdays`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          }
+        );
+        const birthdayClean = await birthday.json();
+
+        // Parse the birthday from an object to a string
+        let birthdayParsed = '';
+        for(let key in birthdayClean.birthdays[0].date) {
+          if(key === 'year') birthdayParsed = birthdayParsed + birthdayClean.birthdays[0].date[key];
+          else birthdayParsed = birthdayParsed + '-' + birthdayClean.birthdays[0].date[key]
+        }
+        res.locals.birthday = birthdayParsed;
+        console.log('res.locals.birthday', res.locals.birthday);
+      } catch (err) {
+        console.log('err from google', err);
+        return next({
+          log: 'Error retrieving birthday from Google',
+          status: 400,
+          message: { err: 'Unable to retrieve birthday from Google.' },
+        });
+      }
+    };
+
+    
+
+    getToken();
   },
 };
 

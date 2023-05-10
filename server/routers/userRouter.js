@@ -1,5 +1,5 @@
 const express = require('express');
-const userController = require('../controllers/userController');
+const userController = require('../controllers/userController.js');
 
 const userRouter = express.Router();
 
@@ -11,12 +11,12 @@ userRouter.post('/login', userController.verifyUser, (req, res) => {
   res.status(200).json(res.locals.result);
 });
 
-userRouter.get('/google/generate', userController.generateOauthURL, (req, res) => {
-  res.redirect(res.locals.googleUrl);
-});
-
-userRouter.get('/google/callback', userController.handleGoogleResponse, (req, res) => {
-  res.sendStatus(200);
-});
+userRouter.get(
+  '/google/callback',
+  userController.handleGoogleResponse,
+  (req, res) => {
+    res.redirect('http://localhost:8080/#/createperson');
+  }
+);
 
 module.exports = userRouter;

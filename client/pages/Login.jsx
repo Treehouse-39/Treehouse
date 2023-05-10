@@ -52,9 +52,11 @@ const Login = () => {
     form.setAttribute('method', 'GET'); // Send as a GET request.
     form.setAttribute('action', oauth2Endpoint);
 
-    const client_id = '259775907524-hfp1tbe741beir8rc9malevcfrqlmsfb.apps.googleusercontent.com';
+    const client_id =
+      '259775907524-hfp1tbe741beir8rc9malevcfrqlmsfb.apps.googleusercontent.com';
     const redirect_uri = 'http://localhost:3000/user/google/callback';
-    const scope = 'https://www.googleapis.com/auth/userinfo.email';
+    const scope =
+      'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/user.birthday.read';
 
     // Parameters to pass to OAuth 2.0 endpoint.
     const params = {

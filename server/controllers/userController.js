@@ -21,7 +21,7 @@ const userController = {
 
     try {
       const { rows } = await db.query(queryString);
-      res.locals.result = rows[0];
+      res.locals.result = rows[0].id;
       return next();
     } catch {
       return next({

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import GoogleButton from 'react-google-button';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -114,8 +115,8 @@ const Login = () => {
       </div>
       <div id='signup'>
         <p>Don't have an account?</p>
-        <button onClick={() => navigate('/signup')}>Sign Up</button>
         <button onClick={oauthSignIn}>Sign In With Google</button>
+        <GoogleButton onClick={oauthSignIn} />
       </div>
     </div>
   );

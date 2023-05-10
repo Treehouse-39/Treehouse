@@ -12,26 +12,9 @@ personController.getAllPeople = async(req, res, next) => {
         res.locals.people = response.rows
         return next();
     } catch(err){
-        next({log: 'asdfasdfasd', message: `error: ${err}`});
+        next({log: 'Error in personController.getAllPeople', message: `error: ${err}`});
     }
 }
-
-// Create a new tree
-// Create a new account with username and password
-personController.addTree = async (req, res, next) => {
-  try {
-    console.log('adding tree');
-    const { username, password, family_name } = req.body;
-    const data = [username, password, family_name];
-    console.log(data);
-    const queryString = `INSERT INTO tree (username, password, family_name) VALUES ($1, $2, $3)`;
-    db.query(queryString, data);
-    return next();
-  } catch (err) {
-    console.log(err);
-    next({ log: 'Error in personController.addTree', message: `error: ${err}` });
-  }
-};
 
 // Getting the ID from an existing card/person
 // Also determine relation (spouse, mom, dad) from card
@@ -64,7 +47,6 @@ personController.checkPerson = async (req, res, next) => {
         if (preCheck.rows && preCheck.rows.length){
             preCheck.rows.forEach(el => {
                 if (el.first_name === firstName && el.last_name === lastName) {
-                    console.log('Person already exists');
                     res.locals.exists = el.id;
                 }
             });
@@ -273,6 +255,24 @@ personController.addChild = async(req, res, next) => {
         
 }
 
-
+personController.deletePerson = async(req, res, next) => {
+    try {
+        const { firstName, lastName, birthday } = req.body;
+        const queryString = `DELETE FROM people WHERE first_name='${firstName}' AND last_name='${lastName}' AND birthday='${birthday}'`;
+        await db.query(queryString);
+        return next();
+    } catch(err){
+        next({log: 'Error in personController.deletePerson', message: `error: ${err}`});
+    }
+}
+personController.deleteTestPeople = async (req, res, next) => {
+    try {
+        const { queryString } = req.body;
+        await db.query(queryString)
+        return next()
+    } catch(err){
+        next({log: 'Error in personControlelr.deleteTestPeople', message: `error: ${err}`})
+    }
+}
 
 module.exports = personController;

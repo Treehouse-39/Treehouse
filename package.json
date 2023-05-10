@@ -38,6 +38,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "babel-jest": "^29.5.0",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "concurrently": "^8.0.1",
@@ -49,6 +50,7 @@
     "pg": "^8.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.11.1"
+    "react-router-dom": "^6.11.1",
+    "supertest": "^6.3.3"
   }
 }

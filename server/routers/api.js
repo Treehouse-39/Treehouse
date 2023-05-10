@@ -48,5 +48,13 @@ router.post('/addChild/:parentFirstName/:parentLastName/:parentBirthday/:parentS
     (req, res) => res.sendStatus(200)
 )
 
-router.post('/addTree', personController.addTree, (req, res) => res.sendStatus(200));
+router.delete('/deletePerson',
+    personController.deletePerson,
+    (req, res) => res.sendStatus(200)
+)
+router.delete('/deleteTestPeople',
+    personController.deleteTestPeople,
+    (req, res) => res.sendStatus(200)
+)
+
 module.exports = router;

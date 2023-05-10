@@ -4,13 +4,16 @@ const userController = require('../controllers/userController');
 const userRouter = express.Router();
 
 userRouter.post('/createuser', userController.createUser, (req, res) => {
-  res.status(200).json('User Created');
+  res.status(200).json(res.locals);
 });
 
 userRouter.post('/login', userController.verifyUser, (req, res) => {
   res.status(200).json(res.locals.result);
 });
 
+userRouter.delete('/delete', userController.deleteUser, (req, res) => {
+  res.status(200).send('Deleted')
+})
 userRouter.get('/google/generate', userController.generateOauthURL, (req, res) => {
   res.redirect(res.locals.googleUrl);
 });

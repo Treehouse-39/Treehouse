@@ -94,13 +94,10 @@ const userController = {
 
   handleGoogleResponse(req, res, next) {
     console.log('hello');
-    // Parse the request params for Google response
-    // console.log(req);
-    // console.log(req.params);
-    // console.log(req.query);
-    // const  = req.query;
     console.log('req', req);
     console.log('req.query', req.query);
+    const { code } = req.query;
+    console.log('code', code);
     return next();
   },
 };

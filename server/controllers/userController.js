@@ -47,7 +47,16 @@ const userController = {
 
     try {
       const { rows } = await db.query(queryString);
+
+      if (!rows.length)
+        return next({
+          log: 'Error username does not exist',
+          status: 400,
+          message: { err: 'Incorrect Username or Password' },
+        });
+
       const match = await bcrypt.compare(password, rows[0].password);
+
       if (match) {
         res.locals.result = rows[0].id;
         return next();

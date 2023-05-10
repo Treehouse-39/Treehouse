@@ -1,8 +1,9 @@
-import React from 'react';
-// import { Component } from  'react';
-import Home from './Components/Home.jsx';
-// require('dotenv').config();
-// import * as dotenv from 'dotenv';
+import React, { Component } from 'react';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
+import Login from './pages/Login.jsx';
+import Home from './pages/Home.jsx';
+import Signup from './pages/Signup.jsx';
+import CreatePerson from './pages/CreatePerson.jsx';
 
 const App = () => {
   /* OAUTH 
@@ -45,10 +46,29 @@ const App = () => {
   }
   */
 
+  const router = createHashRouter([
+    {
+      path: '/',
+      element: <Login />,
+    },
+    {
+      path: 'home',
+      element: <Home />,
+    },
+    {
+      path: 'signup',
+      element: <Signup />,
+    },
+    {
+      path: 'createperson',
+      element: <CreatePerson />,
+    },
+  ]);
+
   return (
-    <>
-      <Home />
-    </>
+    <div id='main-content'>
+      <RouterProvider router={router} />
+    </div>
   );
 };
 

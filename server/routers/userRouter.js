@@ -4,7 +4,7 @@ const userController = require('../controllers/userController');
 const userRouter = express.Router();
 
 userRouter.post('/createuser', userController.createUser, (req, res) => {
-  res.status(200).json('User Created');
+  res.status(200).json(res.locals.result);
 });
 
 userRouter.post('/login', userController.verifyUser, (req, res) => {

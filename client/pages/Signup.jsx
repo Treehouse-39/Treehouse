@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -38,9 +37,8 @@ const Signup = () => {
         if (parsedRes.err) alert('Unable to create user. Please try again');
         // Otherwise, navigate to the homepage
         else {
-            setfamId(parsedRes);
-            console.log(famId);
-            navigate('/createperson');
+          console.log('parsedRes', parsedRes);
+          setfamId(parsedRes);
         }
       } catch {
         alert('Unable to create user. Please try again');
@@ -49,6 +47,11 @@ const Signup = () => {
 
     createUser();
   };
+
+  // When famId changes, redirect to create person passing down the famId
+  useEffect(() => {
+    if (famId) navigate('/createperson', { state: { id: famId } });
+  });
 
   const { username, password, family_name } = data;
   return (
@@ -86,7 +89,7 @@ const Signup = () => {
               onChange={handleChange}
             />
           </label>
-          
+
           <input
             id='signup-button'
             type='submit'

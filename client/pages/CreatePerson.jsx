@@ -127,42 +127,46 @@ const CreatePerson = () => {
   } = data;
   return (
     <div id='create-person-page'>
-      <h1>Add yourself below </h1>
+      <h2>Add yourself below! </h2>
       <div id='create-person'>
         <form id='set-person' onSubmit={handleSubmit}>
           <label id='first-name-label'>
-            First Name:
+            First Name*:
             <input
               type='text'
               name='firstName'
               value={firstName}
               onChange={handleChange}
+              className='inputBox'
             />
           </label>
           <br></br>
           <label id='last-name-label'>
-            Last Name:
+            Last Name*:
             <input
               type='text'
               name='lastName'
               value={lastName}
               onChange={handleChange}
+              className='inputBox'
             />
           </label>
           <br></br>
           <label id='birthday-label'>
-            Birthday:
+            Birthday*:
             <input
               type='date'
               name='birthday'
               value={birthday}
               onChange={handleChange}
+              className='inputBox'
             />
           </label>
           <br></br>
           <label id='sex-label'>
-            Sex:
-            <input type='text' name='sex' value={sex} onChange={handleChange} />
+            Sex*:
+            <input type='text' name='sex' value={sex} onChange={handleChange}
+            className='inputBox' />
           </label>
           <br></br>
           <label id='email-label'>
@@ -172,6 +176,7 @@ const CreatePerson = () => {
               name='email'
               value={email}
               onChange={handleChange}
+              className='inputBox'
             />
           </label>
           <br></br>
@@ -182,6 +187,7 @@ const CreatePerson = () => {
               name='streetAddress'
               value={streetAddress}
               onChange={handleChange}
+              className='inputBox'
             />
           </label>
           <br></br>
@@ -192,6 +198,7 @@ const CreatePerson = () => {
               name='city'
               value={city}
               onChange={handleChange}
+              className='inputBox'
             />
           </label>
           <br></br>
@@ -202,6 +209,7 @@ const CreatePerson = () => {
               name='state'
               value={state}
               onChange={handleChange}
+              className='inputBox'
             />
           </label>
           <br></br>
@@ -212,6 +220,7 @@ const CreatePerson = () => {
               name='zipCode'
               value={zipCode}
               onChange={handleChange}
+              className='inputBox'
             />
           </label>
           <br></br>

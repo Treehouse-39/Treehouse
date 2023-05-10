@@ -4,10 +4,9 @@ export default function PersonCard(props) {
   const { first_name, last_name, sex, birthday, death_date } = props.personInfo;
   const { getDetails } = props;
   return (
-    <>
+    < div id={'home-page'} >
     {/* style={{ (sex === 'male') ? {backgroundColor: 'lightblue'} : {backgroundColor: 'lightpink'} }}; */}
-      <button
-        style={{ width: '160px', height: '120px', border: '1px solid black', margin: '8px', padding: '3px', borderRadius: '5px', backgroundColor: 'lightgreen' }}
+      <button id={'personCard'}
         onClick={async () => {
           console.log('clicked');
           await getDetails(first_name, last_name, birthday);
@@ -18,6 +17,6 @@ export default function PersonCard(props) {
         </p>
         <p>Birthday: {birthday.slice(0, 10)}</p>
       </button>
-    </>
+    </div>
   );
 }

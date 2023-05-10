@@ -8,7 +8,9 @@ import CardDetailDisplay from '../Components/CardDetailDisplay.jsx';
 
 export default function Home() {
   const [people, setPeople] = useState([]);
-  // const [TreeDisplay, setTreeDisplay] = useState(true);
+  const [viewTree, setViewTree] = useState(true);
+  const [person, setPerson] = useState({});
+
   useEffect(() => {
     getPeople();
   }, []);
@@ -19,19 +21,30 @@ export default function Home() {
     })
       .then((info) => info.json())
       .then((data) => {
-        console.log('returned people list', data);
+        // console.log('returned people list', data);
         setPeople(data.people);
       })
       .catch((err) => console.log(`Error from fetch: ${err}`));
   }
 
-  console.log(people);
+  function getDetails(first_name, last_name, birthday) {
+    // /getPerson/:firstName/:lastName/:birthday
+    fetch(`/api/getPerson/${first_name}/${last_name}/${birthday}`, {
+      mode: 'no-cors',
+    })
+      .then((info) => info.json())
+      .then((data) => {
+        // console.log('get specific person data - mom/dad/spouse', data);
+        setPerson(data);
+        setViewTree(false);
+      })
+      .catch((err) => console.log(`Error from fetch: ${err}`));
+  }
 
   return (
     <>
       <h1>Home</h1>
-      {/* {TreeDisplay ? <TreeDisplay people={people} /> : <CardDetailDisplay />} */}
-      <TreeDisplay people={people} />
+      {viewTree ? <TreeDisplay people={people} getDetails={getDetails} /> : <CardDetailDisplay person={person} />}
     </>
   );
 }

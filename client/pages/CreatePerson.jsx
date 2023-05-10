@@ -1,22 +1,41 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const CreatePerson = () => {
   const navigate = useNavigate();
 
+  // Family ID is passed to this page through a router redirect from the signup page
+  const passedState = useLocation();
+  // console.log(passedState)
+  // firstName, lastName, birthday, relation => of original person
+  const [relation, setRelation] = useState({
+    firstName: passedState.state.firstName, 
+    lastName: passedState.state.lastName, 
+    birthday: passedState.state.birthday, 
+    relationship: passedState.state.relation, 
+  });
+
+  const [parent, setParent] = useState({
+    parentFirstName: passedState.state.parentFirstName, 
+    parentLastName: passedState.state.parentLastName, 
+    parentBirthday: passedState.state.parentBirthday, 
+    parentSex: passedState.state.parentSex
+  })
+
   const [data, setData] = useState({
-    familyTree: 0,
+    familyTree: passedState.state.id,
     firstName: '',
     lastName: '',
-    birthday: Date.now(),
+    birthday: '',
     phoneNumber: 11111111,
     email: '',
-    deathDate: Date.now(),
     streetAddress: '',
     city: '',
     state: '',
     zipCode: '',
+    sex: '',
   });
+
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -26,7 +45,7 @@ const CreatePerson = () => {
     e.preventDefault();
 
     // Filter for incomplte entries
-    if (firstName === '' || lastName === '' || birthday === undefined)
+    if (firstName === '' || lastName === '' || birthday === null)
       return alert('Required fields: First Name, Last Name, Birthday');
 
     // Create person
@@ -37,19 +56,61 @@ const CreatePerson = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         });
-        // const parsedRes = await res.json();
         console.log(res);
-        // If the server returns an error, alert the user
-        // if (res) alert('Incorrect username/passowrd');
-        // Otherwise, navigate to the homepage
+        // If the response is OK, navigate to the homepage
         if (res.status === 200) navigate('/home');
-        else alert('Required fields: First Name, Last Name, Birthday');
+        // Otherwise, alert the user to try again
+        else alert('create person bad response - Required fields: First Name, Last Name, Birthday');
       } catch {
-        alert('Required fields: First Name, Last Name, Birthday');
+        alert('create person catch - Required fields: First Name, Last Name, Birthday');
       }
     };
 
-    createPerson();
+    const createRelation = async () => {
+      const { firstName, lastName, birthday, relationship } = relation;
+      try {
+        const res = await fetch(`/api/addRelation/${firstName}/${lastName}/${birthday.slice(0,10)}/${relationship}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        console.log(res);
+        // If the response is OK, navigate to the homepage
+        if (res.status === 200) navigate('/home');
+        // // Otherwise, alert the user to try again
+        // else alert('relation bad response - Required fields: First Name, Last Name, Birthday');
+      } catch {
+        alert('relation catch - Required fields: First Name, Last Name, Birthday');
+      }
+    };
+
+    const createChild = async () => {
+      console.log(parent);
+      const { parentFirstName, parentLastName, parentBirthday, parentSex } = parent;
+      try {
+        const res = await fetch(`/api/addChild/${parentFirstName}/${parentLastName}/${parentBirthday.slice(0,10)}/${parentSex}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        console.log(res);
+        // If the response is OK, navigate to the homepage
+        if (res.status === 200) navigate('/home');
+        // // Otherwise, alert the user to try again
+        // else alert('Child issue bad response: Required fields: First Name, Last Name, Birthday');
+      } catch {
+        alert(' child issue catch: Required fields: First Name, Last Name, Birthday');
+      }
+    };
+
+    if (relation.relationship) {
+      createRelation();
+    } else if (parent.parentSex) {
+      createChild();
+    } else {
+      createPerson();
+    }
+
   };
 
   const {
@@ -62,6 +123,7 @@ const CreatePerson = () => {
     city,
     state,
     zipCode,
+    sex,
   } = data;
   return (
     <div id='create-person-page'>
@@ -98,14 +160,9 @@ const CreatePerson = () => {
             />
           </label>
           <br></br>
-          <label id='phone-number-label'>
-            Phone Number:
-            <input
-              type='tel'
-              name='phoneNumber'
-              value={phoneNumber}
-              onChange={handleChange}
-            />
+          <label id='sex-label'>
+            Sex:
+            <input type='text' name='sex' value={sex} onChange={handleChange} />
           </label>
           <br></br>
           <label id='email-label'>

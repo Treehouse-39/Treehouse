@@ -6,6 +6,21 @@ const CreatePerson = () => {
 
   // Family ID is passed to this page through a router redirect from the signup page
   const passedState = useLocation();
+  // console.log(passedState)
+  // firstName, lastName, birthday, relation => of original person
+  const [relation, setRelation] = useState({
+    firstName: passedState.state.firstName, 
+    lastName: passedState.state.lastName, 
+    birthday: passedState.state.birthday, 
+    relationship: passedState.state.relation, 
+  });
+
+  const [parent, setParent] = useState({
+    parentFirstName: passedState.state.parentFirstName, 
+    parentLastName: passedState.state.parentLastName, 
+    parentBirthday: passedState.state.parentBirthday, 
+    parentSex: passedState.state.parentSex
+  })
 
   const [data, setData] = useState({
     familyTree: passedState.state.id,
@@ -20,6 +35,7 @@ const CreatePerson = () => {
     zipCode: '',
     sex: '',
   });
+
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -44,13 +60,57 @@ const CreatePerson = () => {
         // If the response is OK, navigate to the homepage
         if (res.status === 200) navigate('/home');
         // Otherwise, alert the user to try again
-        else alert('Required fields: First Name, Last Name, Birthday');
+        else alert('create person bad response - Required fields: First Name, Last Name, Birthday');
       } catch {
-        alert('Required fields: First Name, Last Name, Birthday');
+        alert('create person catch - Required fields: First Name, Last Name, Birthday');
       }
     };
 
-    createPerson();
+    const createRelation = async () => {
+      const { firstName, lastName, birthday, relationship } = relation;
+      try {
+        const res = await fetch(`/api/addRelation/${firstName}/${lastName}/${birthday.slice(0,10)}/${relationship}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        console.log(res);
+        // If the response is OK, navigate to the homepage
+        if (res.status === 200) navigate('/home');
+        // // Otherwise, alert the user to try again
+        // else alert('relation bad response - Required fields: First Name, Last Name, Birthday');
+      } catch {
+        alert('relation catch - Required fields: First Name, Last Name, Birthday');
+      }
+    };
+
+    const createChild = async () => {
+      console.log(parent);
+      const { parentFirstName, parentLastName, parentBirthday, parentSex } = parent;
+      try {
+        const res = await fetch(`/api/addChild/${parentFirstName}/${parentLastName}/${parentBirthday.slice(0,10)}/${parentSex}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        console.log(res);
+        // If the response is OK, navigate to the homepage
+        if (res.status === 200) navigate('/home');
+        // // Otherwise, alert the user to try again
+        // else alert('Child issue bad response: Required fields: First Name, Last Name, Birthday');
+      } catch {
+        alert(' child issue catch: Required fields: First Name, Last Name, Birthday');
+      }
+    };
+
+    if (relation.relationship) {
+      createRelation();
+    } else if (parent.parentSex) {
+      createChild();
+    } else {
+      createPerson();
+    }
+
   };
 
   const {

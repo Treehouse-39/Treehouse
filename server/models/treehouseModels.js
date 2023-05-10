@@ -31,7 +31,7 @@ const makeTreeTable = `CREATE TABLE IF NOT EXISTS tree (
 async function createTreeTable() {
   await pool
     .query(makeTreeTable)
-    .then(() => console.log('Table created successfully'))
+    .then(() => console.log('Tree table created successfully'))
     .catch((err) => console.error('Error creating tree table:', err));
 }
 
@@ -59,17 +59,17 @@ const makePeopleTable = `CREATE TABLE IF NOT EXISTS people (
 async function createPeopleTable() {
   await pool
     .query(makePeopleTable)
-    .then(() => console.log('Table created successfully'))
+    .then(() => console.log('People table created successfully'))
     .catch((err) => console.error('Error creating people table:', err));
 }
 
-// createSchema();
-// createPeopleTable();
-// createTreeTable();
+createSchema();
+createTreeTable();
+createPeopleTable();
 
 module.exports = {
   query: (text, params, callback) => {
-    console.log('executed query', text);
+    // console.log('executed query', text);
     return pool.query(text, params, callback);
   },
 };

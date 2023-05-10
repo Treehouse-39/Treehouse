@@ -1,15 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 export default function (props) {
+  const navigate = useNavigate();
+
   // const { first_name, last_name, birthday, death_date, email, phone_number, street_address, city, state, zip_code, mom_id, dad_id, spouse_id } = props.personInfo;
   const { person, setViewTree, getDetails } = props;
   const { mom, dad, spouse, children } = person;
-  const { first_name, last_name, birthday, death_date, email, phone_number, street_address, city, state, zip_code, mom_id, dad_id, spouse_id } = person.person;
-  console.log(person)
+  const { id, first_name, last_name, sex, birthday, death_date, email, phone_number, street_address, city, state, zip_code } = person.person;
+  console.log('children', children)
+  
+  const childrenCards = [];
+
+  if (children) {
+    for (let i = 0; i < children.length; i++) {
+      childrenCards.push(<button style={{margin: '2px 5px', backgroundColor: 'lightsalmon', borderRadius: '3px'}} 
+      onClick={ async () => { await getDetails(children[i].first_name, children[i].last_name, children[i].birthday) }}> {children[i].first_name} {children[i].last_name} </button>)
+    }
+  }
+
+
   return (
-    <div style={{ width: '200px', height: '600px', border: '1px solid black', margin: '10px', padding: '5px', borderRadius: '5px', backgroundColor: 'lightcyan'}}>
-      <button style={{marginLeft: '150px', width: '50px'}} onClick={() => { setViewTree(true) }}> Back </button>
+    <div style={{ width: '250px', height: '600px', border: '1px solid black', margin: '10px', padding: '5px', borderRadius: '5px', backgroundColor: 'lightcyan'}}>
+      <button style={{marginLeft: '200px', width: '50px'}} onClick={() => { setViewTree(true) }}> Back </button>
       <p style={{fontSize: '22px'}} >
         Name: {first_name} {last_name}
       </p>
@@ -17,7 +30,7 @@ export default function (props) {
         Birthday: {birthday.slice(0, 10)} 
       </p>
       <p>
-        Death Date: {death_date.slice(0, 10)}
+        {/* Death Date: {death_date.slice(0, 10)} */}
       </p>
       <p>Phone Number: {phone_number} </p>
       <p>Email: {email} </p>
@@ -29,11 +42,12 @@ export default function (props) {
         { spouse ? 
         <button style={{ margin: '2px 5px', backgroundColor: 'lightsalmon', borderRadius: '3px' }} 
         onClick={ async () => { await getDetails(spouse.first_name, spouse.last_name, spouse.birthday) }} > 
-        {' '} {spouse.first_name} {spouse.last_name}{' '} </button> 
+        {' '} {spouse.first_name} {' '} {spouse.last_name}{' '} </button> 
         : <button style={{margin: '2px 5px', backgroundColor: 'lightsteelblue', borderRadius: '3px' }} 
         // add in functionality to add a new person
-        onclick={ async () => {    }} > Add Spouse </button> }
+        onClick={ ()=> { navigate('/createperson', { state: { firstName: first_name, lastName: last_name, birthday: birthday, relation: 'spouse' } })}} > Add Spouse </button> }
       </p>
+
       <p>
         Mom:{' '}
         { mom ? <button style={{ margin: '2px 5px', backgroundColor: 'lightsalmon', borderRadius: '3px' }} 
@@ -41,8 +55,9 @@ export default function (props) {
         {' '} {mom.first_name} {mom.last_name}{' '} </button> 
         : <button style={{margin: '2px 5px', backgroundColor: 'lightsteelblue', borderRadius: '3px' }} 
         // add in functionality to add a new person
-        onclick={ async () => {    }} > Add Mom </button> }
+        onClick={ ()=> navigate('/createperson', { state: { firstName: first_name, lastName: last_name, birthday: birthday, relation: 'mom' } })} > Add Mom </button> }
       </p>
+
       <p>
         Dad:{' '}
         { dad ? 
@@ -51,12 +66,19 @@ export default function (props) {
         {' '} {dad.first_name} {dad.last_name}{' '} </button> 
         : <button style={{margin: '2px 5px', backgroundColor: 'lightsteelblue', borderRadius: '3px' }}
         // add in functionality to add a new person
-        onclick={ async () => {    }} > Add Dad </button> }
+        onClick={ ()=> navigate('/createperson', { state: { firstName: first_name, lastName: last_name, birthday: birthday, relation: 'dad' } })}> Add Dad </button> }
       </p>
-      {/* // need to iterate over children array to add children to card */}
+
       <p>
         Children: 
-        { children ? <button style={{margin: '2px 5px', backgroundColor: 'lightsalmon', borderRadius: '3px' }} > {' '} {children.first_name} {children.last_name}{' '} </button> : <button style={{margin: '2px 5px', backgroundColor: 'lightsteelblue', borderRadius: '3px' }} > Add Child </button> }
+        { childrenCards.length ? <p> {childrenCards} </p> : null}
+        {<button style={{margin: '2px 5px', backgroundColor: 'lightsteelblue', borderRadius: '3px' }} 
+        onClick={ () => (sex === 'female') ? 
+        navigate('/createperson', { state: { parentFirstName: first_name, parentLastName: last_name, 
+        parentBirthday: birthday, parentSex: 'female' }})
+        : navigate('/createperson', { state: { parentFirstName: first_name, parentLastName: last_name, 
+        parentBirthday: birthday, parentSex: 'male' }})}> Add Child </button> }        
+
       </p>
     </div>
   );

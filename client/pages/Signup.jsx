@@ -20,8 +20,7 @@ const Signup = () => {
     e.preventDefault();
 
     // Filter for incomplte entries
-    if (username === '' || password === '' || family_name === '')
-      alert('Missing username, password, or family name');
+    if (username === '' || password === '' || family_name === '') alert('Missing username, password, or family name');
 
     // Create user
     const createUser = async () => {
@@ -57,45 +56,25 @@ const Signup = () => {
   return (
     <div>
       <h1>Treehouse</h1>
-      <div id='login'>
+      <div id="login">
         <h3>Sign Up Today</h3>
-        <form id='set-login' onSubmit={handleSubmit}>
-          <label id='username-label'>
+        <form id="set-login" onSubmit={handleSubmit}>
+          <label id="username-label">
             Username:
-            <input
-              type='text'
-              name='username'
-              value={username}
-              onChange={handleChange}
-            />
+            <input type="text" name="username" value={username} onChange={handleChange} />
           </label>
           <br></br>
-          <label id='password-label'>
+          <label id="password-label">
             Password:
-            <input
-              type='text'
-              name='password'
-              value={password}
-              onChange={handleChange}
-            />
+            <input type="text" name="password" value={password} onChange={handleChange} />
           </label>
           <br></br>
-          <label id='family-name-label'>
+          <label id="family-name-label">
             Family Name:
-            <input
-              type='text'
-              name='family_name'
-              value={family_name}
-              onChange={handleChange}
-            />
+            <input type="text" name="family_name" value={family_name} onChange={handleChange} />
           </label>
 
-          <input
-            id='signup-button'
-            type='submit'
-            name='submit'
-            value='Sign Up'
-          />
+          <input id="signup-button" type="submit" name="submit" value="Sign Up" />
         </form>
       </div>
     </div>

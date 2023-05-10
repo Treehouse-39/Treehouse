@@ -46,8 +46,8 @@ const Login = () => {
   return (
     <div id='login-page'>
       <h1>Treehouse</h1>
+      <h2>Because they're family</h2>
       <div id='login'>
-        <h3>Login</h3>
         <form id='set-login' onSubmit={handleSubmit}>
           <label id='username-label'>
             Username:
@@ -56,6 +56,7 @@ const Login = () => {
               name='username'
               value={username}
               onChange={handleChange}
+              className='inputBox'
             />
           </label>
           <br></br>
@@ -66,15 +67,16 @@ const Login = () => {
               name='password'
               value={password}
               onChange={handleChange}
+              className='inputBox'
             />
           </label>
           <br></br>
-          <input id='login-button' type='submit' name='submit' value='Login' />
+          <input id='login-button' type='submit' name='submit' value='LOGIN' />
         </form>
       </div>
       <div id='signup'>
         <p>Don't have an account?</p>
-        <button onClick={() => navigate('/signup')}>Sign Up</button>
+        <button onClick={() => navigate('/signup')}>SIGN UP</button>
       </div>
     </div>
   );

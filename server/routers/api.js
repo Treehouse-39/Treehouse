@@ -43,6 +43,7 @@ router.post('/addRelation/:firstName/:lastName/:birthday/:relation',
 )
 
 router.post('/addChild/:parentFirstName/:parentLastName/:parentBirthday/:parentSex',
+    personController.checkPerson,
     personController.addChild,
     (req, res) => res.sendStatus(200)
 )

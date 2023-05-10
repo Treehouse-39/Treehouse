@@ -27,7 +27,7 @@ personController.getId = async (req, res, next) => {
       res.locals.spouseId = existingId.rows[0].id;
     } else if (relation === 'mom' || relation === 'dad') {
       res.locals.childId = existingId.rows[0].id;
-    }
+    } 
     //  else if (relation === 'dad') {
     //   res.locals.dadId = existingId.rows[0].id;
     // }
@@ -196,29 +196,63 @@ personController.getPerson = async(req, res, next) => {
 }
 
 personController.addChild = async(req, res, next) => {
-    try {
-        const { parentFirstName, parentLastName, parentBirthday, parentSex } = req.params;
-        const { familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, 
-                streetAddress, city, state, zipCode } = req.body;
-        const parentQueryString = `SELECT * FROM people WHERE first_name='${parentFirstName}' AND last_name='${parentLastName}' AND birthday='${parentBirthday}' `;
-        const response = await db.query(parentQueryString);
-        const parentId = response.rows[0].id;
-        let data;
-        let queryString;
-        if (parentSex==='female'){
-            data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, parentId];        
-            queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, mom_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
+    // query to see if names exist, 
 
-        } else if (parentSex ==='male'){
-            data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, parentId];        
-            queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, dad_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
+    // update mom/dad id
+    if (!res.locals.exists){
+        try {
+            const { parentFirstName, parentLastName, parentBirthday, parentSex } = req.params;
+            const { familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, 
+                    streetAddress, city, state, zipCode } = req.body;
+            const parentQueryString = `SELECT * FROM people WHERE first_name='${parentFirstName}' AND last_name='${parentLastName}' AND birthday='${parentBirthday}' `;
+            const response = await db.query(parentQueryString);
+            const parentId = response.rows[0].id;
+            let data;
+            let queryString;
+            if (parentSex === 'female'){
+                data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, parentId];        
+                queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, mom_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
 
+            } else if (parentSex === 'male'){
+                data = [familyTree, firstName, lastName, sex, phoneNumber, email, birthday, deathDate, streetAddress, city, state, zipCode, parentId];        
+                queryString = `INSERT INTO people (family_tree, first_name, last_name, sex, phone_number, email, birthday, death_date, street_address, city, state, zip_code, dad_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`;
+
+            }
+            await db.query(queryString, data);
+            return next();
+        } catch(err){
+            next({log: 'Error in personController.addChild', message: `error: ${err}`});
         }
-        await db.query(queryString, data);
-        return next();
-    } catch(err){
-        next({log: 'Error in personController.addChild', message: `error: ${err}`});
+    } else {
+        //Cases for if the relative you're adding already exists somewher in the tree
+        try {
+            // child ID
+            const {exists} = res.locals;
+
+            const {parentFirstName, parentLastName, parentBirthday, parentSex} = req.params;
+            // console.log(res.locals)
+
+            // update mom/dad id 
+            const getIdQuery = `SELECT id FROM people WHERE first_name='${parentFirstName}' AND last_name='${parentLastName}' AND birthday='${parentBirthday}'`;
+            let parentID = await db.query(getIdQuery);
+            parentID = parentID.rows[0].id;
+
+            if (parentSex === 'female'){
+                const updateCurrentMomQuery = `UPDATE people SET mom_id=${parentID} WHERE id=${exists}`;
+                await db.query(updateCurrentMomQuery);
+            } else if (parentSex === 'male'){
+                const updateCurrentDadQuery = `UPDATE people SET dad_id=${parentID} WHERE id=${exists}`;
+                await db.query(updateCurrentDadQuery);
+            }
+
+           
+            return next();
+        } catch(err){
+            next({log: 'Error in personController.addChild', message: `error: ${err}`});
+        }
+       
     }
+        
 }
 
 personController.deletePerson = async(req, res, next) => {

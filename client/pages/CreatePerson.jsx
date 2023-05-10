@@ -224,7 +224,7 @@ const CreatePerson = () => {
             />
           </label>
           <br></br>
-          <input id='login-button' type='submit' name='submit' value='Login' />
+          <input id='login-button' type='submit' name='submit' value='Submit' />
         </form>
       </div>
     </div>

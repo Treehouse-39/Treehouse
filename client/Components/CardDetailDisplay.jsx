@@ -4,12 +4,10 @@ import { useNavigate } from 'react-router-dom';
 export default function (props) {
   const navigate = useNavigate();
 
-  // const { first_name, last_name, birthday, death_date, email, phone_number, street_address, city, state, zip_code, mom_id, dad_id, spouse_id } = props.personInfo;
   const { person, setViewTree, getDetails } = props;
   const { mom, dad, spouse, children } = person;
   const { id, first_name, last_name, sex, birthday, death_date, email, phone_number, street_address, city, state, zip_code } = person.person;
-  console.log('children', children)
-  
+
   const childrenCards = [];
 
   if (children) {
@@ -19,19 +17,14 @@ export default function (props) {
     }
   }
 
-
   return (
     <div id={'cardDetails'}>
       <button style={{marginLeft: '200px', width: '55px' }} onClick={() => { setViewTree(true) }}> Back </button>
       <p style={{fontSize: '35px', margin: '10px 0', textAlign: 'center'}} >
         {first_name} {last_name}
       </p>
-      <p>
-        Birthday: {birthday.slice(0, 10)} 
-      </p>
-      <p>
-        {/* Death Date: {death_date.slice(0, 10)} */}
-      </p>
+      <p>Birthday: {birthday.slice(0, 10)}</p>
+      <p>{/* Death Date: {death_date.slice(0, 10)} */}</p>
       <p>Phone Number: {phone_number} </p>
       <p>Email: {email} </p>
       <p>

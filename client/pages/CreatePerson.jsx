@@ -6,21 +6,20 @@ const CreatePerson = () => {
 
   // Family ID is passed to this page through a router redirect from the signup page
   const passedState = useLocation();
-  // console.log(passedState)
   // firstName, lastName, birthday, relation => of original person
   const [relation, setRelation] = useState({
-    firstName: passedState.state.firstName, 
-    lastName: passedState.state.lastName, 
-    birthday: passedState.state.birthday, 
-    relationship: passedState.state.relation, 
+    firstName: passedState.state.firstName,
+    lastName: passedState.state.lastName,
+    birthday: passedState.state.birthday,
+    relationship: passedState.state.relation,
   });
 
   const [parent, setParent] = useState({
-    parentFirstName: passedState.state.parentFirstName, 
-    parentLastName: passedState.state.parentLastName, 
-    parentBirthday: passedState.state.parentBirthday, 
-    parentSex: passedState.state.parentSex
-  })
+    parentFirstName: passedState.state.parentFirstName,
+    parentLastName: passedState.state.parentLastName,
+    parentBirthday: passedState.state.parentBirthday,
+    parentSex: passedState.state.parentSex,
+  });
 
   const [data, setData] = useState({
     familyTree: passedState.state.id,
@@ -36,7 +35,6 @@ const CreatePerson = () => {
     sex: '',
   });
 
-
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -45,8 +43,7 @@ const CreatePerson = () => {
     e.preventDefault();
 
     // Filter for incomplte entries
-    if (firstName === '' || lastName === '' || birthday === null)
-      return alert('Required fields: First Name, Last Name, Birthday');
+    if (firstName === '' || lastName === '' || birthday === null) return alert('Required fields: First Name, Last Name, Birthday');
 
     // Create person
     const createPerson = async () => {
@@ -56,7 +53,6 @@ const CreatePerson = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         });
-        console.log(res);
         // If the response is OK, navigate to the homepage
         if (res.status === 200) navigate('/home');
         // Otherwise, alert the user to try again
@@ -69,12 +65,11 @@ const CreatePerson = () => {
     const createRelation = async () => {
       const { firstName, lastName, birthday, relationship } = relation;
       try {
-        const res = await fetch(`/api/addRelation/${firstName}/${lastName}/${birthday.slice(0,10)}/${relationship}`, {
+        const res = await fetch(`/api/addRelation/${firstName}/${lastName}/${birthday.slice(0, 10)}/${relationship}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         });
-        console.log(res);
         // If the response is OK, navigate to the homepage
         if (res.status === 200) navigate('/home');
         // // Otherwise, alert the user to try again
@@ -85,15 +80,13 @@ const CreatePerson = () => {
     };
 
     const createChild = async () => {
-      console.log(parent);
       const { parentFirstName, parentLastName, parentBirthday, parentSex } = parent;
       try {
-        const res = await fetch(`/api/addChild/${parentFirstName}/${parentLastName}/${parentBirthday.slice(0,10)}/${parentSex}`, {
+        const res = await fetch(`/api/addChild/${parentFirstName}/${parentLastName}/${parentBirthday.slice(0, 10)}/${parentSex}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         });
-        console.log(res);
         // If the response is OK, navigate to the homepage
         if (res.status === 200) navigate('/home');
         // // Otherwise, alert the user to try again
@@ -110,21 +103,9 @@ const CreatePerson = () => {
     } else {
       createPerson();
     }
-
   };
 
-  const {
-    firstName,
-    lastName,
-    birthday,
-    phoneNumber,
-    email,
-    streetAddress,
-    city,
-    state,
-    zipCode,
-    sex,
-  } = data;
+  const { firstName, lastName, birthday, phoneNumber, email, streetAddress, city, state, zipCode, sex } = data;
   return (
     <div id='create-person-page'>
       <h2>Add yourself below! </h2>
@@ -169,7 +150,7 @@ const CreatePerson = () => {
             className='inputBox' />
           </label>
           <br></br>
-          <label id='email-label'>
+          <label id="email-label">
             Email:
             <input
               type='email'
@@ -180,7 +161,7 @@ const CreatePerson = () => {
             />
           </label>
           <br></br>
-          <label id='street-address-label'>
+          <label id="street-address-label">
             Street Address:
             <input
               type='text'
@@ -191,7 +172,7 @@ const CreatePerson = () => {
             />
           </label>
           <br></br>
-          <label id='city-label'>
+          <label id="city-label">
             City:
             <input
               type='text'
@@ -202,7 +183,7 @@ const CreatePerson = () => {
             />
           </label>
           <br></br>
-          <label id='state-label'>
+          <label id="state-label">
             State:
             <input
               type='text'
@@ -213,7 +194,7 @@ const CreatePerson = () => {
             />
           </label>
           <br></br>
-          <label id='zip-code-label'>
+          <label id="zip-code-label">
             Zip Code:
             <input
               type='text'

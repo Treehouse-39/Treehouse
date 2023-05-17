@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body {
+  font-family: Roboto;
+  background-color: #d7fff1;
+  // background-image: url('./client/assets/IMG_9663.jpeg');
+}
+
+#main-content {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+    color: #285943;
+    font-size: 8vh;
+    padding: 0;
+    margin-top: 80px;
+    margin-bottom: 0;
+}
+
+p {
+  // text-align: center;
+}
+
+h2 {
+    color: #285943;
+    font-size: 4vh;
+    display: flex;
+    justify-content: center;
+}
+
+#login-page {
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+}
+
+#login {
+  display: flex;
+  margin-top: 20px;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  // border: 1px solid black;
+
+}
+
+form {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+}
+
+#signup {
+  display: flex;
+  margin-top: 20px;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  margin-left: 10px;
+}
+
+#login-button {
+  background-color: #77af9c;
+  padding: 12px 24px;
+  border-radius: 7px;
+  color: white;
+  border-color: #77af9c;
+  margin: 15px;
+}
+
+button {
+  background-color: white;
+  color: #77af9c;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border-color: #77af9c;
+  margin-left: 0px;
+}
+
+.inputBox {
+  height: 3vh;
+  border-color: #aafcb8;
+  background-color: #aafcb8;
+  border-radius: 3px;
+  box-shadow: 0px;
+}
+
+#displayPersonButton {
+  border: 1px solid #77af9c;
+  color: #285943;
+  font-size: 16px;
+  background-color: #aafcb8;
+  box-shadow: 1px 1px 1px #77af9c;
+}
+
+#addPersonButton {
+  border: 1px solid #aafcb8;
+  color: #d7fff1;
+  font-size: 14px;
+  background-color: #77af9c;
+  box-shadow: 1px 1px 2px #77af9c;
+}
+
+#personCard { 
+  width: 200px; 
+  height: 120px;
+  margin: 10px; 
+  padding: 3px; 
+  font-size: 16px;
+  border-radius: 5px;
+  color: #d7fff1;
+  background-color: #285943;
+  box-shadow: 3px 3px 2px #285943; 
+
+  @media screen and (max-width: 640px) {
+    // display: flex;
+  }
+}
+
+#homepage-title {
+  text-align: center;
+  font-size: 5vh;
+  margin: 5% auto;
+}
+
+#logout-button {
+  width: 100px;
+  font-size: medium;
+  align-self: flex-end;
+  border-radius: 5px;
+}
+
+#cardDetails {
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  width: 250px;
+  height: 600px;
+  color: #d7fff1;
+  border: 1px solid #77af9c;
+  margin: 10px;
+  padding: 10px; 
+  border-radius: 5px; 
+  background-color: #285943;
+}
+
+#home-page {
+  display: flex;
+  flex-direction: row;
+
+
+  @media screen and (max-width: 640px) {
+    display: flex;
+    justify-content: center;
+  }
+
+  // #create-person-page {
+  //   font-size: 10%;
+  // }
+}

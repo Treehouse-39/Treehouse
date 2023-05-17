@@ -16,7 +16,7 @@ A Family Tree and Contact Directory
 </div>
 <br />
 <div align='center'>
-Sunlyte is a mobile application that lets you keep track of your family tree and access your family members' contact info!
+Treehouse is a mobile application that lets you keep track of your family tree and access your family members' contact info!
 </div>
 <br />
 <div align='center'>
@@ -37,12 +37,12 @@ Sunlyte is a mobile application that lets you keep track of your family tree and
 
 # Overview
 
-Upon logging in, Treehouse allows users to click through their family tree! On each family member's profile card, you're able to see their parents, spouse, and all of their children. We've provided a seamless process for users to be able to navigate through even the most complicated family trees, with everyone's contact information right at your fingertips.  
+Upon logging in, Treehouse allows users to easily click through their family tree. On each family member's profile card, you're able to see their parents, spouse, and all of their children. We've provided a seamless process for users to be able to navigate through even the most complicated family trees, with everyone's contact information right at their fingertips.  
 
 <div align='center'>
 <img src='./client/assets/treehouse-demo.gif' height='500'>
 </div>
-And if the user wants to expand their tree, simply click the button for whichever relative they're adding, and complete the provided contact form!
+And if the user wants to expand their tree, they can simply click the button for whichever relative they're adding, and complete the provided contact form!
 
 </br>
 
